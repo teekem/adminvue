@@ -5,6 +5,7 @@ import VuexPersist from 'vuex-persist'
 
 import Application from './modules/Application'
 import User from './modules/Users'
+import {AdmissionOfficer} from './modules/Admission.Officer'
  //import modules from './modules/index'
 
 
@@ -17,7 +18,7 @@ const vuexPersist = new VuexPersist({
 
 const debug = process.env.NODE_ENV !== 'production';
 export default new Vuex.Store({
-   modules:{Application,User},
+   modules:{Application,User,AdmissionOfficer},
    strict: debug,
    plugins: [vuexPersist.plugin],
 })

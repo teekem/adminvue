@@ -109,12 +109,11 @@ import PendApplications from "@/components/application/PendApplications";
 import GetApplicants from "@/components/application/GetApplications";
 
 import { mapGetters, mapActions } from "vuex";
-import PageHeader from '../layout/pageHeader.vue';
+import PageHeader from "../layout/pageHeader.vue";
 export default {
   components: { AllApplications, PendApplications, GetApplicants, PageHeader },
   props: {
-  
-      id: { type: Number },
+    id: { type: Number },
   },
   data() {
     return {

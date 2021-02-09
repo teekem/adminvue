@@ -13,4 +13,9 @@ new Vue({
   store,
   router,
   render: h => h(App),
+  created() {
+    console.log("App started");
+
+    
+  },
 }).$mount('#app')
