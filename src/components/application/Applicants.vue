@@ -57,7 +57,8 @@
       >
         <div class="app-card app-card-orders-table shadow-sm mb-5">
           <div class="app-card-body">
-            <AllApplications :listOfAllApplicants="applicants" />
+            <AllApplications  />
+            
           </div>
         </div>
       </div>

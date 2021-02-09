@@ -24,3 +24,13 @@ export const router = new VueRouter({
         ],
  
 });
+
+{/* <th class="cell">S/N</th>
+<th class="cell">Name</th>
+<th class="cell">Email</th>
+<th class="cell">Date</th>
+<th class="cell">Admission Status</th>
+<th class="cell"></th> */}
+
+
+

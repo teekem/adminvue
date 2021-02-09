@@ -3,7 +3,7 @@
         <Header/>
         <div class="app-wrapper">
             <div  class="app-content pt-3 p-md-3 p-lg-4">
-                <div class="container-xl">
+                <div class="">
                     <!-- <h1 class="app-page-title">{{pageTitle}}</h1> -->
                     <router-view/>
                 </div>
