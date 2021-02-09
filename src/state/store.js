@@ -1,7 +1,7 @@
 /** store/index.js **/
 import Vue from 'vue';
 import Vuex from 'vuex';
-
+import VuexPersist from 'vuex-persist'
 
 import Application from './modules/Application'
 import User from './modules/Users'
@@ -9,37 +9,15 @@ import User from './modules/Users'
 
 
 Vue.use(Vuex);
+
+const vuexPersist = new VuexPersist({
+   key: "vuex",
+   storage: window.sessionStorage
+ })
+
 const debug = process.env.NODE_ENV !== 'production';
 export default new Vuex.Store({
    modules:{Application,User},
    strict: debug,
-//    plugins: debug? [ createLogger() ] : []
+   plugins: [vuexPersist.plugin],
 })
-
-
-
-
-// Vue.use(Vuex);
-
-// export default new Vuex.Store({
-        
-//  state : {
-//     allApplicants:[{'name':'sam'},{'name':'tee'},{'name':'kay'}]
-// },
-
-//  actions : {
-//     requestAllApplicants({commit}){
-//         axios.get('/allApplicants')
-//         .then(({data}) => {
-//             commit('setAllApplicant', data)
-//         })
-//       }
-// },
-//  mutations : {
-//     setAllApplicant: (state, data) => { state.allApplicants = data}
-// },      
-//  getters : {
-//     getApplicants:state => state.allApplicants
-    
-// }
-// })

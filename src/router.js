@@ -11,8 +11,12 @@ export const router = new VueRouter({
     { path: '/document', name:'document',component: () => import("./components/Document") },
     { path: '/account', name:'account',component: () => import("./components/Account") },
     { path: '/settings', name:'settings',component: () => import("./components/Settings") },
-    { path: '/applicants', name:'applicants',component: () => import("./components/Applicants") },
-    { path: '/applicant/:id', name:'applicant',component: () => import("./components/Applicant") },
+    { path: '/applicants', name:'applicants',component: () => import("./components/application/Applicants") },
+    { path: '/getapplication', 
+      name:'getapplication',
+      component: () => import("./components/application/GetApplications"),
+      props: true},
+    
     { path: '/notifications', name:'notifications',component: () => import("./components/Notification") },
     
      {  path: '*',  name:'allhome', component: () => import("./components/Home") },

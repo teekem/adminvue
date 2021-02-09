@@ -5,13 +5,13 @@ import { Promise } from "core-js";
 export default {
     namespaced: true,
      state : {
-        // allUser:[{'name':'admin'},{'name':'admin'},{'name':'admin'},{'name':'admin'}],
         allUser:[],
         user:{}
     },
     getters : {
-        getUsers:state => state.allUser,
-        countUser: state => state.allUser.length
+        getAllUsers:state => state.allUser,
+        countUser: state => state.allUser.length,
+
         
     },
      actions : {
