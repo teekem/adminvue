@@ -1,8 +1,8 @@
 <template>
   <div id="app">
         <!-- <router-view/> -->
-        <!-- <Login/> -->
-        <MasterLayout/>
+        <Login/>
+        <!-- <MasterLayout/> -->
   </div>
 </template>
 

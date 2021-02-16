@@ -14,10 +14,11 @@
             </div>
             <h2 class="auth-heading text-center mb-5">Log in to Portal</h2>
             <div class="auth-form-container text-left">
-              <form class="auth-form login-form">
+              <form @submit.prevent="sendLoginRequest()" class="auth-form login-form">
                 <div class="email mb-3">
                   <label class="sr-only" for="signin-email">Email</label>
                   <input
+                    v-model="credentials.email"
                     id="signin-email"
                     name="signin-email"
                     type="email"
@@ -30,6 +31,7 @@
                 <div class="password mb-3">
                   <label class="sr-only" for="signin-password">Password</label>
                   <input
+                     v-model="credentials.password"
                     id="signin-password"
                     name="signin-password"
                     type="password"
@@ -100,29 +102,7 @@
         </div>
         <!--//flex-column-->
       </div>
-      <!--//auth-main-col-->
-      <!-- <div class="col-12 col-md-5 col-lg-6 h-100 auth-background-col">
-        <div class="auth-background-holder"></div>
-        <div class="auth-background-mask"></div>
-        <div class="auth-background-overlay p-3 p-lg-5">
-          <div class="d-flex flex-column align-content-end h-100">
-            <div class="h-100"></div>
-            <div class="overlay-content p-3 p-lg-4 rounded">
-              <h5 class="mb-3 overlay-title">Explore Portal Admin Template</h5>
-              <div>
-                Portal is a free Bootstrap 5 admin dashboard template. You can
-                download and view the template license
-                <a
-                  href="https://themes.3rdwavemedia.com/bootstrap-templates/admin-dashboard/portal-free-bootstrap-admin-dashboard-template-for-developers/"
-                  >here</a
-                >.
-              </div>
-            </div>
-          </div>
-        </div>
-        //auth-background-overlay
-      </div> -->
-      <!--//auth-background-col-->
+     
     </div>
     <!--//row-->
   </div>
@@ -130,7 +110,28 @@
 
 
 <script>
-export default {};
+import { mapGetters, mapActions } from "vuex";
+export default {
+  name: 'Login',
+  data(){
+    return{
+
+      credentials :{
+        email : '',
+        password: ''
+      }
+    }
+  },
+  methods:{
+    sendLoginRequest(){
+      this.$store.dispatch('User/login', this.credentials)
+      .then(resp => {
+        console.log(resp)
+      })
+      .catch(err => { console.log(err)})
+    }
+  }
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

@@ -11,7 +11,8 @@ Vue.use(BootstrapVue);
 
 
 window.axios = axios;
-axios.defaults.baseURL = 'http://localhost:8000/'
+axios.defaults.baseURL = 'http://127.0.0.1:8000/api/'
+// axios.defaults.headers.common['Authorization'] = `Bearer ${store.state.User.token}`
 Vue.config.productionTip = false
 
 

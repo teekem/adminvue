@@ -689,6 +689,7 @@ import Footer from './layout/Footer'
 
 import {mapGetters, mapActions} from 'vuex'
 export default {
+  name:'Home',
  components:{Footer, Header},
  data(){
     return{
