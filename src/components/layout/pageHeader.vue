@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="row g-3 mb-4 align-items-center justify-content-between">
+    <div class="row g-3 mb-4 align-items-center justify-content-between dontprint">
       <div class="col-auto">
-        <h1 class="app-page-title mb-0">Applicants</h1>
+        <h1 class="app-page-title mb-0">{{title}}</h1>
       </div>
       <div class="col-auto">
         <div class="page-utilities">
@@ -69,7 +69,15 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props:['visible', 'title'],
+};
 </script>
 
-<style></style>
+<style>
+@media print{
+	.dontprint{
+		display: none;
+	}
+}
+</style>
