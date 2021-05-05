@@ -83,7 +83,6 @@ export default {
             this.selectedSettings = element
             break;
         }
-        
     }
       this.modal = true;
       this.dataSent = data;

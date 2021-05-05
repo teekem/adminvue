@@ -1,19 +1,326 @@
 <template>
-<div>
-    <payment-header class="mt-5" ></payment-header>
-    <div>
-        
+  <div>
+    <div class="mt-5">
+      <b-container fluid>
+        <div class="card mb-1">
+          <div class="card-body py-2 px-3">
+            <div class="row">
+              <div class="col">
+                 <div class="form-group m-0 p-0">
+                  <label>Select Session</label>
+                  <select class="form-control form-control-sm" v-model="session">
+                    <option v-for="(s, index) in sessions " :key="index" :value="s" >{{s}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col">
+                 <div class="form-group m-0 p-0">
+                  <label>Select Semester</label>
+                  <select class="form-control form-control-sm" v-model="semester" >
+                    <option v-for=" (s, index) in semesters " :key="index" :value="s">{{s}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group m-0 p-0">
+                  <label>Select Degree</label>
+                 <select
+                class="form-control form-control-sm"
+                v-model="programme_type"
+                
+              >
+                <option v-for="(type , index) in programme_types" :key="index" :value="type.programme_type">{{type.programme_type}}</option> 
+              </select>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group m-0 p-0">
+                  <label>Select Payment Type</label>
+                  <select class="form-control form-control-sm" v-model="paymentType" >
+                    <option value="" >Select Payment</option>
+                    <option v-for="(type, index) in paymentTypes" :key="index" >{{type.name}}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <b-row>
+          <b-col sm="5" class="">
+            <b-form-group
+              label="Filter"
+              label-for="filter-input"
+              label-cols-sm="3"
+              label-align-sm="right"
+              label-size="sm"
+              class="mb-0"
+            >
+              <b-input-group size="sm">
+                <b-form-input
+                  id="filter-input"
+                  v-model="filter"
+                  type="search"
+                  placeholder="Type to Search"
+                ></b-form-input>
+
+                <b-input-group-append>
+                  <b-button :disabled="!filter" @click="filter = ''"
+                    >Clear</b-button
+                  >
+                </b-input-group-append>
+              </b-input-group>
+            </b-form-group>
+          </b-col>
+
+          <b-col sm="5" md="6" class="">
+            <b-form-group
+              label="Per page"
+              label-for="per-page-select"
+              label-cols-sm="6"
+              label-cols-md="4"
+              label-cols-lg="3"
+              label-align-sm="right"
+              label-size="sm"
+              class="mb-0"
+            >
+              <b-form-select
+                id="per-page-select"
+                v-model="perPage"
+                :options="pageOptions"
+                size="sm"
+              ></b-form-select>
+            </b-form-group>
+          </b-col>
+        </b-row>
+
+        <!-- Main table element -->
+        <b-table
+          :busy="isBusy"
+          :items="items"
+          :fields="fields"
+          :current-page="currentPage"
+          :per-page="perPage"
+          :filter="filter"
+          :filter-included-fields="filterOn"
+          :sort-by.sync="sortBy"
+          :sort-desc.sync="sortDesc"
+          :sort-direction="sortDirection"
+          stacked="md"
+          show-empty
+          small
+          @filtered="onFiltered"
+        >
+        <template #table-busy>
+        <div class="text-center text-danger my-2">
+          <b-spinner class="align-middle"></b-spinner>
+          <strong>Loading...</strong>
+        </div>
+      </template>
+          <template #cell(name)="row">
+            {{ row.value.surname }} {{ row.value.lastname }}
+          </template>
+
+          <template #cell(actions)="row">
+            <b-button
+              size="sm"
+              @click="info(row.item, row.index, $event.target)"
+              class="mr-1"
+            >
+              Info modal
+            </b-button>
+            <b-button size="sm" @click="row.toggleDetails">
+              {{ row.detailsShowing ? "Hide" : "Show" }} Details
+            </b-button>
+          </template>
+
+          <template #row-details="row">
+            <b-card>
+              <ul>
+                <li v-for="(value, key) in row.item" :key="key">
+                  {{ key }}: {{ value }}
+                </li>
+              </ul>
+            </b-card>
+          </template>
+        </b-table>
+
+        <b-row>
+          <b-col md="6" class="my-1">
+            <b-pagination
+              v-model="currentPage"
+              :total-rows="totalRows"
+              :per-page="perPage"
+              class="my-0"
+            ></b-pagination>
+          </b-col>
+        </b-row>
+
+        <!-- Info modal -->
+        <b-modal
+          :id="infoModal.id"
+          :title="infoModal.title"
+          ok-only
+          @hide="resetInfoModal"
+        >
+          <pre>{{ infoModal.content }}</pre>
+        </b-modal>
+      </b-container>
     </div>
-    </div>  
+  </div>
 </template>
 
 <script>
-import PaymentHeader from './payment.header.vue'
-export default {
+import pageHeader from "../layout/pageHeader.vue";
 
-}
+export default {
+  components: { pageHeader },
+  data() {
+    return {
+      isBusy:false,
+      items: [],
+      fields: [
+        {
+          key: "name",
+          label: "Full Name",
+          sortable: true,
+          sortDirection: "desc",
+        },
+        {
+          key: "mobile",
+          label: "Mobile",
+          sortable: true,
+          class: "text-center",
+        },
+        {
+          key: "rrr",
+          label: "RRR",
+          sortable: true,
+          class: "text-center",
+        },
+        {
+          key: "status",
+          label: "Status",
+          sortable: true,
+          class: "text-center",
+        },
+        { key: "actions", label: "Actions" },
+      ],
+      totalRows: 1,
+      currentPage: 1,
+      perPage: 5,
+      pageOptions: [5, 10, 15, { value: 100, text: "Show a lot" }],
+      sortBy: "",
+      sortDesc: false,
+      sortDirection: "asc",
+      filter: null,
+      filterOn: [],
+      infoModal: {
+        id: "info-modal",
+        title: "",
+        content: "",
+      },
+      semesters:[],
+      semester:"",
+      sessions:[],
+      session:"",
+      programme_types:'',
+      programme_type:"",
+      paymentTypes:[
+        {name:"Application FEE", value:'application'},
+        {name:"Acceptance FEE" , value:'acceptance'},
+        {name:"Caution FEE", value:'caution'},
+      ],
+      paymentType:"",
+      application_number:"",
+    };
+  },
+  computed: {
+    settings() {
+      return this.$store.state.settings;
+    },
+    sortOptions() {
+      // Create an options list from our fields
+      return this.fields
+        .filter((f) => f.sortable)
+        .map((f) => {
+          return { text: f.label, value: f.key };
+        });
+    },
+  },
+  mounted() {
+    // Set the initial number of items
+    this.totalRows = this.items.length;
+  },
+  methods: {
+    info(item, index, button) {
+      this.infoModal.title = `Row index: ${index}`;
+      this.infoModal.content = JSON.stringify(item, null, 2);
+      this.$root.$emit("bv::show::modal", this.infoModal.id, button);
+    },
+    resetInfoModal() {
+      this.infoModal.title = "";
+      this.infoModal.content = "";
+    },
+    onFiltered(filteredItems) {
+      // Trigger pagination to update the number of buttons/pages due to filtering
+      this.totalRows = filteredItems.length;
+      this.currentPage = 1;
+    },
+   loadProgrammeTypes(){
+     axios.post('api/getProgrammeTypesForApplication')
+      .then((response) => {
+        this.programme_types = response.data.types;
+      }).catch((err) => {
+        Toast.fire({
+          icon:'error',
+          title:'Network Error'
+        })
+      });
+   },
+   loadTransactions(){
+     this.isBusy = true
+     let data = {
+       session:this.semester ? this.semester : null,
+       semester:this.semester ? this.semester : null, 
+       applicationFee:this.paymentType == 'application' ? true : null,
+        acceptanceFee:this.paymentType == 'acceptance' ? true : null,
+       mcFee:this.paymentType == 'caution' ? true : null, 
+       degree:this.programme_type ? true : null, 
+       application_number:this.application_number? this.application_number:null};
+      axios
+      .post("admin/all/applicants/payments", data)
+      .then((response) => {
+     this.isBusy = false
+        this.items = response.data.transaction 
+      })
+      .catch((err) => {
+     this.isBusy = false
+      });
+   }
+
+  },
+  created() {
+    this.loadProgrammeTypes();
+    this.loadTransactions();
+    this.$store.dispatch('getSettings')
+  },
+  watch: {
+    settings(){
+      let semester = ['Select Semester'];
+        let session = ['Select Session'];
+      for (let i = 0; i < this.settings.length; i++) {
+        // this.semester = new Set()
+        semester.push(this.settings[i].semester_name);
+        session.push(this.settings[i].session_name);
+      }
+      let Unisemester = new Set(semester);
+     let  Unisession = new Set(session);
+     this.semesters = [...Unisemester] ;
+     this.sessions = [...Unisession];
+    }
+  },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>
