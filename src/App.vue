@@ -1,14 +1,8 @@
 <template>
   <div id="app">
-<<<<<<< Updated upstream
-        <!-- <router-view/> -->
-        <Login/>
-        <!-- <MasterLayout/> -->
-=======
         <router-view/>
         <!-- <MasterLayout v-if="isLoggedIn" /> -->
         <!-- <Login /> -->
->>>>>>> Stashed changes
   </div>
 </template>
 

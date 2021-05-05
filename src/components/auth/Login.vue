@@ -1,64 +1,4 @@
 <template>
-<<<<<<< Updated upstream
-  <div class="app app-login p-0" >
-    <div class="row g-0 app-auth-wrapper">
-      <div class="col-12 auth-main-col text-center p-5">
-        <div class="d-flex flex-column align-content-end">
-          <div class="app-auth-body mx-auto">
-            <div class="app-auth-branding mb-4">
-              <a class="app-logo" href="index.html"
-                ><img
-                  class="logo-icon mr-2"
-                  src="assets/images/logo1.jpg"
-                  alt="logo"
-              /></a>
-            </div>
-            <h2 class="auth-heading text-center mb-5">Log in to Portal</h2>
-            <div class="auth-form-container text-left">
-              <form @submit.prevent="sendLoginRequest()" class="auth-form login-form">
-                <div class="email mb-3">
-                  <label class="sr-only" for="signin-email">Email</label>
-                  <input
-                    v-model="credentials.email"
-                    id="signin-email"
-                    name="signin-email"
-                    type="email"
-                    class="form-control signin-email"
-                    placeholder="Email address"
-                    required="required"
-                  />
-                </div>
-                <!--//form-group-->
-                <div class="password mb-3">
-                  <label class="sr-only" for="signin-password">Password</label>
-                  <input
-                     v-model="credentials.password"
-                    id="signin-password"
-                    name="signin-password"
-                    type="password"
-                    class="form-control signin-password"
-                    placeholder="Password"
-                    required="required"
-                  />
-                  <div class="extra mt-3 row justify-content-between">
-                    <div class="col-6">
-                      <div class="form-check">
-                        <input
-                          class="form-check-input"
-                          type="checkbox"
-                          value=""
-                          id="RememberPassword"
-                        />
-                        <label class="form-check-label" for="RememberPassword">
-                          Remember me
-                        </label>
-                      </div>
-                    </div>
-                    <!--//col-6-->
-                    <div class="col-6">
-                      <div class="forgot-password text-right">
-                        <a href="reset-password.html">Forgot password?</a>
-=======
   <div class="app app-login p-0">
     <b-overlay :show="show" rounded="lg">
       <div class="row g-0 app-auth-wrapper">
@@ -109,7 +49,6 @@
                         <div class="forgot-password text-right">
                           <a href="#">Forgot password?</a>
                         </div>
->>>>>>> Stashed changes
                       </div>
                       <!--//col-6-->
                     </div>
@@ -150,18 +89,6 @@
                   </a>
                   University</small
                 >
-<<<<<<< Updated upstream
-                University</small
-              >
-            </div>
-          </footer>
-          <!--//app-auth-footer-->
-        </div>
-        <!--//flex-column-->
-      </div>
-     
-    </div>
-=======
               </div>
             </footer>
             <!--//app-auth-footer-->
@@ -170,35 +97,11 @@
         </div>
       </div>
     </b-overlay>
->>>>>>> Stashed changes
     <!--//row-->
   </div>
 </template>
 
 <script>
-<<<<<<< Updated upstream
-import { mapGetters, mapActions } from "vuex";
-export default {
-  name: 'Login',
-  data(){
-    return{
-
-      credentials :{
-        email : '',
-        password: ''
-      }
-    }
-  },
-  methods:{
-    sendLoginRequest(){
-      this.$store.dispatch('User/login', this.credentials)
-      .then(resp => {
-        console.log(resp)
-      })
-      .catch(err => { console.log(err)})
-    }
-  }
-=======
 export default {
   data() {
     return {
@@ -269,7 +172,6 @@ export default {
     // console.log("here")
     console.log(this.$router.history.current.query);
   },
->>>>>>> Stashed changes
 };
 </script>
 

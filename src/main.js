@@ -20,16 +20,10 @@ Vue.use(IconsPlugin);
 
 window.Fire = new Vue();
 window.axios = axios;
-<<<<<<< Updated upstream
-axios.defaults.baseURL = 'http://127.0.0.1:8000/api/'
-// axios.defaults.headers.common['Authorization'] = `Bearer ${store.state.User.token}`
-Vue.config.productionTip = false
-=======
 // axios.defaults.baseURL = "http://localhost:8000/";
 // axios.defaults.baseURL = 'http://10.1.34.211:8000'
 // axios.defaults.baseURL = 'http://192.168.137.127:8000/'
 axios.defaults.baseURL = 'https://pgr.run.edu.ng/'
->>>>>>> Stashed changes
 
 window.Swal = Swal;
 const Toast = Swal.mixin({
