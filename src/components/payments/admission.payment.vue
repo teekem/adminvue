@@ -9,7 +9,7 @@
                  <div class="form-group m-0 p-0">
                   <label>Select Session</label>
                   <select class="form-control form-control-sm" v-model="session" @change="loadTransactions">
-                    <option v-for="(s, index) in sessions " :key="index" :value="s" >{{s}}</option>
+                    <option v-for="(s, index) in sessions " :key="index"  >{{s}}</option>
                   </select>
                 </div>
               </div>
@@ -37,7 +37,7 @@
                 <div class="form-group m-0 p-0">
                   <label>Select Payment Type</label>
                   <select class="form-control form-control-sm" v-model="paymentType" @change="loadTransactions" >
-                    <option value="" >Select Payment</option>
+                    <option value="" >All</option>
                     <option v-for="(type, index) in paymentTypes" :key="index" :value="type.value" >{{type.name}}</option>
                   </select>
                 </div>
@@ -46,8 +46,8 @@
           </div>
         </div>
 
-        <b-row>
-          <b-col sm="5" class="">
+        <div class=" row justify-content-evenly">
+          <div class="col-4">
             <b-form-group
               label="Filter"
               label-for="filter-input"
@@ -71,9 +71,20 @@
                 </b-input-group-append>
               </b-input-group>
             </b-form-group>
-          </b-col>
-
-          <b-col sm="5" md="6" class="">
+          </div>
+          <div class="col-4">
+          <div class="text-center">
+            <button v-if="!student.clicked" @click="student.clicked = !student.cliked" class=" btn btn-sm btn-info rounded-pill" > Enter Application Number </button>
+            <div v-else class="">
+              <div class="input-group">
+  <input type="text" class="form-control form-control-sm" placeholder="Enter Application Number" aria-label="Application Number" v-model="student.application_number" >
+  <button class="btn btn-info btn-sm" type="button" @click="loadTransactions">Load</button>
+  <button class="btn btn-danger btn-sm"  @click="student.clicked = false">Cancel</button>
+</div>
+            </div>
+          </div>
+          </div>
+          <div class="col-4">
             <b-form-group
               label="Per page"
               label-for="per-page-select"
@@ -91,8 +102,8 @@
                 size="sm"
               ></b-form-select>
             </b-form-group>
-          </b-col>
-        </b-row>
+          </div>
+        </div>
 
         <!-- Main table element -->
         <b-table
@@ -205,6 +216,18 @@ export default {
           class: "text-center",
         },
         {
+          key:"amount",
+          label:"Amount",
+          sortable:true,
+          class:"text-center"
+        },
+        {
+          key:'type',
+          label:"Type",
+          sortable:true,
+          class:"text-center"
+        },
+        {
           key: "status",
           label: "Status",
           sortable: true,
@@ -239,6 +262,10 @@ export default {
       ],
       paymentType:"",
       application_number:"",
+      student:{
+        application_number:null,
+        clicked:false
+      }
     };
   },
   computed: {
@@ -290,13 +317,13 @@ export default {
    loadTransactions(){
      this.isBusy = true
      let data = {
-       session:this.semester ? this.semester : null,
+       session:this.session ? this.session : null,
        semester:this.semester ? this.semester : null, 
        applicationFee:this.paymentType == 'application' ? true : null,
         acceptanceFee:this.paymentType == 'acceptance' ? true : null,
        mcFee:this.paymentType == 'caution' ? true : null, 
        degree:this.programme_type ? this.programme_type : null, 
-       application_number:this.application_number? this.application_number:null};
+       application_number:this.student.application_number? this.student.application_number:null};
        console.log(this.paymentType)
       axios
       .post("admin/all/applicants/payments", data)
