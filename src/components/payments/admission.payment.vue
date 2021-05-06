@@ -8,7 +8,7 @@
               <div class="col">
                  <div class="form-group m-0 p-0">
                   <label>Select Session</label>
-                  <select class="form-control form-control-sm" v-model="session">
+                  <select class="form-control form-control-sm" v-model="session" @change="loadTransactions">
                     <option v-for="(s, index) in sessions " :key="index" :value="s" >{{s}}</option>
                   </select>
                 </div>
@@ -16,7 +16,7 @@
               <div class="col">
                  <div class="form-group m-0 p-0">
                   <label>Select Semester</label>
-                  <select class="form-control form-control-sm" v-model="semester" >
+                  <select class="form-control form-control-sm" v-model="semester" @change="loadTransactions" >
                     <option v-for=" (s, index) in semesters " :key="index" :value="s">{{s}}</option>
                   </select>
                 </div>
@@ -26,8 +26,8 @@
                   <label>Select Degree</label>
                  <select
                 class="form-control form-control-sm"
-                v-model="programme_type"
-                
+                v-model="programme_type" 
+                @change="loadTransactions"
               >
                 <option v-for="(type , index) in programme_types" :key="index" :value="type.programme_type">{{type.programme_type}}</option> 
               </select>
@@ -36,9 +36,9 @@
               <div class="col">
                 <div class="form-group m-0 p-0">
                   <label>Select Payment Type</label>
-                  <select class="form-control form-control-sm" v-model="paymentType" >
+                  <select class="form-control form-control-sm" v-model="paymentType" @change="loadTransactions" >
                     <option value="" >Select Payment</option>
-                    <option v-for="(type, index) in paymentTypes" :key="index" >{{type.name}}</option>
+                    <option v-for="(type, index) in paymentTypes" :key="index" :value="type.value" >{{type.name}}</option>
                   </select>
                 </div>
               </div>
@@ -118,7 +118,7 @@
         </div>
       </template>
           <template #cell(name)="row">
-            {{ row.value.surname }} {{ row.value.lastname }}
+            {{ row.value.surname}}
           </template>
 
           <template #cell(actions)="row">
@@ -181,10 +181,16 @@ export default {
       items: [],
       fields: [
         {
-          key: "name",
-          label: "Full Name",
+          key: "surname",
+          label: "Surname",
           sortable: true,
-          sortDirection: "desc",
+          class: "text-center",
+        },
+        {
+          key: "lastname",
+          label: "Lastname",
+          sortable: true,
+          class: "text-center",
         },
         {
           key: "mobile",
@@ -252,6 +258,9 @@ export default {
     // Set the initial number of items
     this.totalRows = this.items.length;
   },
+  beforeUpdate() {
+    this.totalRows = this.items.length;
+  },
   methods: {
     info(item, index, button) {
       this.infoModal.title = `Row index: ${index}`;
@@ -286,8 +295,9 @@ export default {
        applicationFee:this.paymentType == 'application' ? true : null,
         acceptanceFee:this.paymentType == 'acceptance' ? true : null,
        mcFee:this.paymentType == 'caution' ? true : null, 
-       degree:this.programme_type ? true : null, 
+       degree:this.programme_type ? this.programme_type : null, 
        application_number:this.application_number? this.application_number:null};
+       console.log(this.paymentType)
       axios
       .post("admin/all/applicants/payments", data)
       .then((response) => {
