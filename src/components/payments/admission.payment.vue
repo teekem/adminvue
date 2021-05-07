@@ -138,11 +138,11 @@
               @click="info(row.item, row.index, $event.target)"
               class="mr-1"
             >
-              Info modal
+              View on Remita
             </b-button>
-            <b-button size="sm" @click="row.toggleDetails">
+            <!-- <b-button size="sm" @click="row.toggleDetails">
               {{ row.detailsShowing ? "Hide" : "Show" }} Details
-            </b-button>
+            </b-button> -->
           </template>
 
           <template #row-details="row">
@@ -174,7 +174,16 @@
           ok-only
           @hide="resetInfoModal"
         >
-          <pre>{{ infoModal.content }}</pre>
+        <b-badge variant="success">Payment type is <b>{{infoModal.content.type}}</b></b-badge>
+          <div class="">
+            <b-overlay :show="infoModal.show" rounded="sm">
+              <div class="shadow-sm p-2 rounded">
+                <span>Amount: <b> ₦ {{infoModal.rrrStatus.amount}}</b> </span> <br>
+                <span> Message: <b>{{infoModal.rrrStatus.message}}</b> </span> <br>
+                <span> Transaction Time : <b>{{infoModal.rrrStatus.transactiontime}}</b> </span>
+              </div>
+    </b-overlay>
+          </div>
         </b-modal>
       </b-container>
     </div>
@@ -246,8 +255,10 @@ export default {
       filterOn: [],
       infoModal: {
         id: "info-modal",
+        show:true,
         title: "",
         content: "",
+        rrrStatus:""
       },
       semesters:[],
       semester:"",
@@ -290,8 +301,10 @@ export default {
   },
   methods: {
     info(item, index, button) {
-      this.infoModal.title = `Row index: ${index}`;
-      this.infoModal.content = JSON.stringify(item, null, 2);
+      this.infoModal.show = true;
+      this.infoModal.title = item.surname+' '+item.lastname ;
+      this.infoModal.content = item
+      this.getRRRStatus(item.rrr);
       this.$root.$emit("bv::show::modal", this.infoModal.id, button);
     },
     resetInfoModal() {
@@ -334,6 +347,15 @@ export default {
       .catch((err) => {
      this.isBusy = false
       });
+   },
+   getRRRStatus(rrr){
+     axios.post('api/checkRRRStatus' , {rrr:rrr})
+     .then((response) => {
+       this.infoModal.rrrStatus = response.data
+       this.infoModal.show = false
+     }).catch((err) => {
+       
+     });
    }
 
   },
