@@ -169,7 +169,7 @@
 
     <li
       class="nav-item has-submenu"
-      v-if="type == 'accountants'"
+      v-if="type == 'accountants' || type == 'admin'"
     >
       <a
         class="nav-link submenu-toggle"
