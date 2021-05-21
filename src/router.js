@@ -51,6 +51,7 @@ export const router = new VueRouter({
         {path:"/admin/report", name:"report", component:()=> import("./components/payments/report.vue")},
         {path:"/admin/payment/admisson", name:"Admission", component:()=> import("./components/payments/admission.payment.vue")},
         {path:"/admin/payment/student" , name:"Student", component:()=>import("./components/payments/student.payment.vue")},
+        {path:"/admin/course/curriculum", name:"curriculum", component:()=>import("./components/course/course.container.vue")},
       ]
     },
     {
