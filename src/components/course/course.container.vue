@@ -30,6 +30,10 @@
                 animated
                 :variant="uploadData.status ? 'success' : 'danger'"
               ></b-progress>
+              <div v-if="uploadData.percentage == 100">
+                <label :class="uploadData.status ? 'text-success' : 'text-danger'"><b>{{uploadData.status ? 'Upload Successful' : 'Upload Failed'}}</b></label>
+              </div>
+                  
             </div>
           </div>
         </div>
