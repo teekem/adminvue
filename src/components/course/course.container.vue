@@ -4,9 +4,12 @@
       <div class="container container-fluid">
         <div class="card mb-2">
           <div class="card-body">
+            <div class="d-block text-right mb-2">
+            <create-course/>
+            </div>
             <b-form-group label="Select File " label-cols-sm="2">
               <b-form-file
-                id="file-default"
+                id="file-default" 
                
                 v-model="uploadData.file"
               ></b-form-file>
@@ -46,7 +49,10 @@
 </template>
 
 <script>
+import CreateCourse from './create.course.vue'
+
 export default {
+  components:{CreateCourse},
   data() {
     return {
       uploadData: {
@@ -76,6 +82,7 @@ export default {
             icon:"info",
             title:"Upload Successful"
           })
+          this.resetUpload()
         })
         .catch((err) => {
           this.uploadData.status = false
@@ -83,8 +90,16 @@ export default {
             icon:"error",
             title:"Error Uploading courses"
           })
+          this.resetUpload()
         });
     },
+    resetUpload(){
+      setTimeout(() => {
+        this.uploadData.percentage = "";
+        this.uploadData.file = null;
+        this.uploadData.status=true
+      }, 7000);
+    }
   },
 };
 </script>

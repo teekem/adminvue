@@ -6,14 +6,16 @@ import axios from "axios";
 import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
-
+import { ValidationProvider, extend, ValidationObserver } from 'vee-validate';
 import "vue-select/dist/vue-select.css";
 import Swal from "sweetalert2";
-
+import "./validator";
 import vSelect from "vue-select";
 
 Vue.component("v-select", vSelect);
 // Vue.component('v-select', VueSelect.VueSelect);
+Vue.component('ValidationProvider', ValidationProvider);
+Vue.component("ValidationObserver", ValidationObserver);
 
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);

@@ -149,8 +149,8 @@
       >
         <ul class="submenu-list list-unstyled">
           <li class="submenu-item">
-            <router-link class="submenu-link" :to="{ name: 'curriculum' }"
-              >Curriculum</router-link
+            <router-link class="submenu-link" :to="{ name: 'courses' }"
+              >Upload Course</router-link
             >
           </li>
           <!-- <li class="submenu-item">
